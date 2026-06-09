@@ -2,7 +2,7 @@
 title: ResolveFactory浅析
 date: 2023-11-14T18:21:13
 lang: zh-CN
-type: daily
+type: none
 description: ResolveFactory 解析器钩子函数
 ---
 
