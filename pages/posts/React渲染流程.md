@@ -1,7 +1,7 @@
 ---
 title: React渲染流程
 date: 2024-12-06T09:13:09
-lang: zh-CN
+lang: zh
 type: blog
 description: 深入理解 React 的两大核心阶段——Reconciler 协调阶段和 Renderer 渲染阶段，以及 render 阶段和 commit 阶段的工作流程
 ---

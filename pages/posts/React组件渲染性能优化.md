@@ -1,7 +1,7 @@
 ---
 title: React组件渲染性能优化
 date: 2024-11-19T08:48:55
-lang: zh-CN
+lang: zh
 type: blog
 description: 探讨 React 组件渲染性能优化策略，包括 shouldComponentUpdate、PureComponent、React.memo、useMemo、useCallback 等优化手段的原理与适用场景
 ---

@@ -14,6 +14,31 @@ const pageSize = props.pageSize || 10
 
 const startPath = props.type ? `/${props.type}` : '/posts'
 const router = useRouter()
+const route = useRoute()
+
+// sessionStorage key
+const PAGE_STORAGE_KEY = `blog_page_${startPath.replace('/', '') || 'posts'}`
+
+// 初始化页码
+function getInitialPage() {
+  if (typeof window === 'undefined')
+    return 1
+
+  // 优先从 URL query 读取
+  const urlPage = Number(route.query.page)
+  if (urlPage > 1) {
+    return urlPage
+  }
+
+  // 从 sessionStorage 恢复
+  const stored = sessionStorage.getItem(PAGE_STORAGE_KEY)
+  if (stored) {
+    return Number(stored)
+  }
+
+  return 1
+}
+
 const routes: Post[] = router.getRoutes()
   .filter(i => i.path.startsWith(startPath) && i.meta.frontmatter.date && !i.meta.frontmatter.draft)
   .filter(i => !i.path.endsWith('.html'))
@@ -38,7 +63,7 @@ const allPosts = computed(() =>
     .filter(i => !englishOnly.value || i.lang !== 'zh'),
 )
 
-const currentPage = ref(1)
+const currentPage = ref(getInitialPage())
 const totalPages = computed(() => Math.ceil(allPosts.value.length / pageSize))
 
 const posts = computed(() => {
@@ -48,13 +73,24 @@ const posts = computed(() => {
 })
 
 function prevPage() {
-  if (currentPage.value > 1)
+  if (currentPage.value > 1) {
     currentPage.value--
+    savePageState()
+  }
 }
 
 function nextPage() {
-  if (currentPage.value < totalPages.value)
+  if (currentPage.value < totalPages.value) {
     currentPage.value++
+    savePageState()
+  }
+}
+
+function savePageState() {
+  if (typeof window !== 'undefined') {
+    sessionStorage.setItem(PAGE_STORAGE_KEY, String(currentPage.value))
+  }
+  router.replace({ query: { page: currentPage.value > 1 ? String(currentPage.value) : undefined } })
 }
 
 const getYear = (a: Date | string | number) => new Date(a).getFullYear()
