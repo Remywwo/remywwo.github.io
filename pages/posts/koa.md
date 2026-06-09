@@ -1,7 +1,7 @@
 ---
 title: Koa概述
 date: 2023-11-14T16:33:32
-lang: zh-CN
+lang: zh
 type: blog
 description: 介绍 Koa 框架相比 Express 的优势，包括更轻量的设计、更合理的对象结构以及基于洋葱模型的异步中间件支持
 ---
