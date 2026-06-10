@@ -55,6 +55,7 @@ const routes: Post[] = router.getRoutes()
     desc: i.meta.frontmatter.description,
     image: i.meta.frontmatter.image,
     imageType: i.meta.frontmatter.imageType || 'top',
+    ai: i.meta.frontmatter.ai,
   }))
 
 const allPosts = computed(() =>
@@ -160,10 +161,15 @@ function getCardBorderClass() {
 
         <div class="card-body">
           <div class="card-header" flex="~ gap-2 items-center">
-            <span
+            <!-- <span
               v-if="route.lang === 'zh'"
               class="text-xs bg-zinc:15 text-zinc5 rounded px-1 py-0.5"
-            >中文</span>
+            >中文</span> -->
+            <span
+              v-if="route.ai"
+              class="text-xs bg-zinc:15 text-zinc5 rounded px-1 py-0.5"
+              title="由 AI 整理生成"
+            > AI 生成</span>
             <span class="title text-xl leading-1.2em font-bold hover-glow">{{ route.title }}</span>
             <span
               v-if="route.redirect"
