@@ -14,6 +14,7 @@ export interface Post {
   redirect?: string
   image?: string
   imageType?: 'top' | 'left' | 'cover'
+  ai?: boolean
 }
 
 export interface Talk {
