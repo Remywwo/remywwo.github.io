@@ -3,6 +3,7 @@ title: Axure RP 11 快捷键完全指南
 date: 2026-06-08T21:16:00
 lang: zh
 type: daily
+ai: true
 description: 整理自 Axure 官方文档，涵盖 Axure RP 11 所有常用快捷键，包括通用操作、画布、插入对象、编辑、矢量运算、站点地图、工具视图、生成预览等十一大类别。
 ---
 
