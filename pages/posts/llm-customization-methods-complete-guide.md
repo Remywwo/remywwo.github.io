@@ -3,6 +3,7 @@ title: 大模型定制专家：方法全景与实战指南
 date: 2026-06-10T21:11:00
 lang: zh
 type: blog
+ai: true
 description: 系统梳理当前可用的8种大模型定制方法，从Prompt Engineering到预训练微调，结合成本、效果、适用场景给出清晰的选型指南。
 ---
 
