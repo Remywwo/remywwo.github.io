@@ -3,6 +3,7 @@ title: 构建高效的智能体
 date: 2026-04-14T14:59:00
 lang: zh
 type: blog
+ai: true
 description: Anthropic 分享了过去一年与数十个团队合作构建 LLM 智能体的实战经验，总结构建有效智能体的核心原则与架构模式。
 ---
 

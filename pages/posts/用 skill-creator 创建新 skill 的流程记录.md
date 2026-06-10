@@ -3,6 +3,7 @@ title: 用 skill-creator 创建新 skill 的流程记录
 date: 2026-04-10T21:16:00
 lang: zh
 type: daily
+ai: true
 description: 本文记录了为 OpenClaw 创建 daily-note skill 的步骤，从需求确认、脚本初始化、SKILL.md 编写，到本地验证和 GitHub 推送，并总结了权限不足、命名规范等常见坑点。
 ---
 
