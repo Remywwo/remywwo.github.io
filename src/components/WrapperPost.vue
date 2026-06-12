@@ -93,6 +93,9 @@ const ArtComponent = computed(() => {
     class="prose m-auto mb-8"
     :class="[frontmatter.wrapperClass]"
   >
+    <div v-if="frontmatter.image" class="slide-enter mb-6">
+      <img :src="frontmatter.image" :alt="frontmatter.title" w-full h-64 object-cover rounded-lg>
+    </div>
     <h1 class="mb-0 slide-enter-50">
       {{ frontmatter.display ?? frontmatter.title }}
     </h1>
@@ -103,7 +106,7 @@ const ArtComponent = computed(() => {
       <span>{{ formatDate(frontmatter.date, false) }} <span v-if="frontmatter.duration">· {{ frontmatter.duration }}</span></span>
       <span
         v-if="frontmatter.ai"
-        class="text-xs bg-zinc:15 text-zinc5 rounded px-1 py-0.5 op100!"
+        class="text-sm bg-zinc:15 text-zinc5 rounded px-1 py-0.5 op100!"
         title="由 AI 整理生成"
       >由 AI 整理生成</span>
     </p>

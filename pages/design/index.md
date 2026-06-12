@@ -1,6 +1,6 @@
 ---
-title: 一些兴趣
+tabTitle: 产品设计作品集
 art: plum
 ---
 
-<ListPosts only-date type="design" />
+<DesignWaterfall />
