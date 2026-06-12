@@ -2,27 +2,28 @@
 const profile = {
   name: 'Remywwo',
   // title: '前端开发 | 产品经理',
-  title: '某互联网大厂资深前端开发',
+  title: '技术型产品',
   flag: '努力学习产品中...',
   // flag: '懂设计的前端，才是合格的产品经理 | 极简主义者 | 明史爱好者',
   description: '乐于主动探索AI新技术；崇尚极简主义，专注从 0 到 1 的创造过程；业余明史爱好者，以历史逻辑沉淀思考，反哺技术与产品决策。',
-  // work: {
-  //   company: '某互联网公司',
-  //   position: '资深前端开发工程师',
-  // },
+  work: {
+    company: '暂无',
+    position: '离职状态',
+  },
   skills: [
     'AI coding',
     '前端开发',
     '产品设计',
     '用户体验',
-    '项目管理',
+    // '项目管理',
   ],
   hobbys: [
     '读书',
-    '明史',
-    '架子鼓',
-    '旅行',
     '动漫',
+    '旅行',
+    // '明史',
+    '架子鼓',
+    '推理游戏',
     // '策略',
   ],
   social: {
@@ -67,11 +68,11 @@ const profile = {
         <h3 class="section-title">
           工作
         </h3>
-        <!-- <div class="work-info">
+        <div class="work-info">
           <span class="company">{{ profile.work.company }}</span>
           <span class="divider">·</span>
           <span class="position">{{ profile.work.position }}</span>
-        </div> -->
+        </div>
       </div>
 
       <div class="profile-section">
