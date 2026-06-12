@@ -73,19 +73,34 @@ const posts = computed(() => {
   return allPosts.value.slice(start, end)
 })
 
-function prevPage() {
-  if (currentPage.value > 1) {
-    currentPage.value--
-    savePageState()
-  }
+function goToPage(page: number) {
+  if (page < 1 || page > totalPages.value || page === currentPage.value)
+    return
+  currentPage.value = page
+  savePageState()
 }
 
-function nextPage() {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++
-    savePageState()
+const pageNumbers = computed(() => {
+  const pages: (number | '...')[] = []
+  const total = totalPages.value
+  const current = currentPage.value
+
+  if (total <= 5) {
+    for (let i = 1; i <= total; i++) pages.push(i)
   }
-}
+  else {
+    pages.push(1)
+    if (current > 3)
+      pages.push('...')
+    for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++)
+      pages.push(i)
+    if (current < total - 2)
+      pages.push('...')
+    pages.push(total)
+  }
+
+  return pages
+})
 
 function savePageState() {
   if (typeof window !== 'undefined') {
@@ -167,7 +182,7 @@ function getCardBorderClass() {
             >中文</span> -->
             <span
               v-if="route.ai"
-              class="text-xs bg-zinc:15 text-zinc5 rounded px-1 py-0.5"
+              class="text-sm bg-zinc:15 text-zinc5 rounded px-1 py-0.5"
               title="由 AI 整理生成"
             > AI 生成</span>
             <span class="title text-xl leading-1.2em font-bold hover-glow">{{ route.title }}</span>
@@ -194,21 +209,35 @@ function getCardBorderClass() {
   </div>
 
   <!-- 分页 -->
-  <div v-if="totalPages > 1" class="pagination flex justify-center items-center gap-4 mt-8">
+  <div v-if="totalPages > 1" class="pagination flex justify-center items-center gap-1 mt-8">
     <button
-      class="hover:opacity-100 op50 hover:op100 disabled:opacity-30 disabled:cursor-not-allowed text-lg px-2"
+      class="page-btn op50 hover:op100 disabled:opacity-25 disabled:cursor-not-allowed"
       :disabled="currentPage === 1"
-      @click="prevPage"
+      @click="goToPage(currentPage - 1)"
     >
       &lt;
     </button>
-    <span class="text-sm op60">
-      {{ currentPage }} / {{ totalPages }}
-    </span>
+    <template v-for="p in pageNumbers" :key="p">
+      <button
+        v-if="p === '...'"
+        class="page-btn op40 cursor-default pointer-events-none"
+        disabled
+      >
+        ...
+      </button>
+      <button
+        v-else
+        class="page-btn"
+        :class="p === currentPage ? 'page-active' : 'op60 hover:op100'"
+        @click="goToPage(p)"
+      >
+        {{ p }}
+      </button>
+    </template>
     <button
-      class="hover:opacity-100 op50 hover:op100 disabled:opacity-30 disabled:cursor-not-allowed text-lg px-2"
+      class="page-btn op50 hover:op100 disabled:opacity-25 disabled:cursor-not-allowed"
       :disabled="currentPage === totalPages"
-      @click="nextPage"
+      @click="goToPage(currentPage + 1)"
     >
       &gt;
     </button>
@@ -322,5 +351,30 @@ function getCardBorderClass() {
 
 .dark .year-bg {
   opacity: 0.3;
+}
+
+.page-btn {
+  min-width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: var(--c-bg-soft);
+}
+
+.page-active {
+  background: var(--c-bg-soft);
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+  cursor: default;
 }
 </style>

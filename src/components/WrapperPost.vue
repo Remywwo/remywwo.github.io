@@ -106,7 +106,7 @@ const ArtComponent = computed(() => {
       <span>{{ formatDate(frontmatter.date, false) }} <span v-if="frontmatter.duration">· {{ frontmatter.duration }}</span></span>
       <span
         v-if="frontmatter.ai"
-        class="text-xs bg-zinc:15 text-zinc5 rounded px-1 py-0.5 op100!"
+        class="text-sm bg-zinc:15 text-zinc5 rounded px-1 py-0.5 op100!"
         title="由 AI 整理生成"
       >由 AI 整理生成</span>
     </p>

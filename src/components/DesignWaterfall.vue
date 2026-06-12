@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import dayjs from 'dayjs'
 import { useRouter } from 'vue-router/auto'
 
 const router = useRouter()
@@ -22,7 +23,7 @@ const designs = computed<DesignCard[]>(() => {
       title: i.meta.frontmatter.title || '',
       description: i.meta.frontmatter.description || '',
       cover: i.meta.frontmatter.image || '',
-      date: i.meta.frontmatter.date,
+      date: dayjs(i.meta.frontmatter.date as string).format('YYYY-MM-DD'),
       category: i.meta.frontmatter.category || '',
     }))
 })
