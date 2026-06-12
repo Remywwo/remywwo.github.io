@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
+import { useImageViewer } from '~/composables/useImageViewer'
 
 const route = useRoute()
+const viewer = useImageViewer()
 
 const frontmatter = computed(() => (route.meta.frontmatter as Record<string, any>) || {})
+
+const wrapperClass = computed(() => route.path.startsWith('/design') ? 'design-wrapper' : '')
 
 useHead({
   title: () => frontmatter.value.tabTitle || frontmatter.value.title || 'Remywwo',
 })
-
-const imageModel = ref<HTMLImageElement>()
 
 useEventListener('click', async (e) => {
   const path = Array.from(e.composedPath())
@@ -32,12 +34,21 @@ useEventListener('click', async (e) => {
   if (pos.left !== newPos.left || pos.top !== newPos.top)
     return
 
-  imageModel.value = first as HTMLImageElement
+  const img = first as HTMLImageElement
+  const prose = img.closest('.prose')
+  if (!prose)
+    return
+
+  const all = [...prose.querySelectorAll('img:not(.no-preview)')]
+  viewer.open(
+    all.map(el => ({ src: (el as HTMLImageElement).src, alt: (el as HTMLImageElement).alt })),
+    all.indexOf(img),
+  )
 })
 
 onKeyStroke('Escape', (e) => {
-  if (imageModel.value) {
-    imageModel.value = undefined
+  if (viewer.isOpen.value) {
+    viewer.close()
     e.preventDefault()
   }
 })
@@ -45,17 +56,12 @@ onKeyStroke('Escape', (e) => {
 
 <template>
   <NavBar />
-  <main class="px-7 mt-28 mb-5 of-x-hidden">
+  <main class="mt-28 mb-5 of-x-hidden" :class="wrapperClass">
     <RouterView />
     <ClientOnly>
       <ParticleNetwork v-if="route.path === '/daily'" />
     </ClientOnly>
     <Footer :key="route.path" />
   </main>
-  <Transition name="fade">
-    <div v-if="imageModel" fixed top-0 left-0 right-0 bottom-0 z-500 backdrop-blur-7 @click="imageModel = undefined">
-      <div absolute top-0 left-0 right-0 bottom-0 bg-black:30 z--1 />
-      <img :src="imageModel.src" :alt="imageModel.alt" :class="imageModel.className" max-w-screen max-h-screen w-full h-full object-contain>
-    </div>
-  </Transition>
+  <ImageViewer />
 </template>

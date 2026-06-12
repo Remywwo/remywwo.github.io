@@ -93,6 +93,9 @@ const ArtComponent = computed(() => {
     class="prose m-auto mb-8"
     :class="[frontmatter.wrapperClass]"
   >
+    <div v-if="frontmatter.image" class="slide-enter mb-6">
+      <img :src="frontmatter.image" :alt="frontmatter.title" w-full h-64 object-cover rounded-lg>
+    </div>
     <h1 class="mb-0 slide-enter-50">
       {{ frontmatter.display ?? frontmatter.title }}
     </h1>
