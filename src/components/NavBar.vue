@@ -32,7 +32,7 @@ const searchOpen = ref(false)
           <span class="lt-md:hidden">思考</span>
           <div i-ri-article-line md:hidden />
         </RouterLink> -->
-        <!-- <RouterLink to="/design" title="作品集">
+        <!-- <RouterLink to="/product" title="作品集">
           <span class="lt-md:hidden">作品集</span>
           <div i-ri-folder-image-line md:hidden />
         </RouterLink> -->
@@ -42,12 +42,12 @@ const searchOpen = ref(false)
             <div i-ri-quill-pen-line md:hidden />
           </RouterLink>
         </span>
-        <span class="lt-md:hidden">
+        <!-- <span class="lt-md:hidden">
           <RouterLink to="/interest" title="兴趣">
             <span class="lt-md:hidden">兴趣</span>
             <div i-ri-heart-line md:hidden />
           </RouterLink>
-        </span>
+        </span> -->
         <RouterLink to="/about" title="关于我">
           <span class="lt-md:hidden">关于我</span>
           <div i-ri-user-line md:hidden />

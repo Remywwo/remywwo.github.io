@@ -124,9 +124,6 @@ function getGroupName(p: Post) {
 
 function getCardBorderClass() {
   switch (props.type) {
-    case 'interest':
-    case 'design':
-      return 'card-border-none'
     default:
       return 'card-border-default'
   }
@@ -170,10 +167,6 @@ function getCardBorderClass() {
           '--enter-step': '60ms',
         }"
       >
-        <div v-if="route.image && props.type === 'interest'" class="card-image">
-          <img :src="route.image" :alt="route.title">
-        </div>
-
         <div class="card-body">
           <div class="card-header" flex="~ gap-2 items-center">
             <!-- <span

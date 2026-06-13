@@ -21,14 +21,9 @@ remywwo.github.io/
 │   ├── posts/               # 技术博客模块
 │   │   ├── index.md         # 博客列表页
 │   │   └── *.md             # 博客文章
-│   ├── product/             # 产品思考模块
-│   │   ├── index.md         # 产品列表页
-│   │   └── [slug].md        # 产品详情页
-│   ├── interest/            # 兴趣模块
-│   │   └── index.md         # 兴趣主页
-│   ├── content/             # 内容生成目录
-│   │   └── product/         # 产品源文件
-│   ├── design/              # 设计模块
+│   ├── product/             # 产品作品集模块
+│   │   ├── index.md         # 产品列表页（ProductWaterfall 瀑布流）
+│   │   └── *.md             # 产品详情页
 │   └── thinking/             # 思考模块
 ├── src/                      # Vue 组件和业务逻辑
 │   ├── components/          # Vue 组件
@@ -42,9 +37,6 @@ remywwo.github.io/
 │   │   └── ...
 │   ├── composables/         # Vue Composables
 │   │   └── useHoliday.ts    # 节假日计算逻辑
-│   ├── data/                # 自动生成的数据文件
-│   │   ├── interestsAuto.ts  # 兴趣数据
-│   │   └── designsAuto.ts    # 设计数据
 │   ├── lib/                  # 工具库
 │   │   └── markdown.ts       # Markdown 解析实例
 │   ├── styles/              # 样式文件
@@ -53,11 +45,8 @@ remywwo.github.io/
 │   ├── App.vue              # 根组件
 │   └── main.ts              # 应用入口
 ├── scripts/                  # 构建脚本
-│   ├── generateInterests.ts  # 生成兴趣数据
-│   ├── generateProducts.ts   # 生成设计数据
 │   ├── rss.ts               # 生成 RSS 订阅
 │   └── slugify.ts           # URL slug 处理
-├── content-creator/          # 内容创作工具（独立 Next.js 应用）
 ├── public/                  # 静态公共资源
 │   └── geojson/             # 地图 GeoJSON 数据
 ├── .github/workflows/        # GitHub Actions
@@ -98,25 +87,6 @@ remywwo.github.io/
   - 自动计算阅读时长
   - 支持目录生成 `[[toc]]`
 - **[date].md**：Fallback 路由，显示"暂无记录"
-
-### 3.4 设计模块 (pages/design/)
-
-- DesignCard 组件：设计卡片展示
-- 设计数据从 `pages/content/design/` 目录自动生成
-
-### 3.5 兴趣模块 (pages/interest/)
-
-- 旅行照片管理（从 `public/images/interests/travel/` 自动读取）
-- 中国地图相册
-
-### 3.6 内容创作工具 (content-creator/)
-
-独立运行的 Next.js 应用，提供：
-
-- 可视化内容创建表单
-- 支持多种内容类型：博客、碎记、产品、兴趣
-- 实时 Markdown 预览
-- 一键保存到正确目录
 
 ## 4. 技术实现细节
 
@@ -184,16 +154,7 @@ pnpm dev
 pnpm build
 ```
 
-### 5.2 自动数据生成
-
-开发服务器启动时自动运行：
-
-```bash
-esno ./scripts/generateInterests.ts  # 生成 src/data/interestsAuto.ts
-esno ./scripts/generateProducts.ts   # 生成 src/data/designsAuto.ts
-```
-
-### 5.3 部署
+### 5.2 部署
 
 GitHub Actions 自动部署，push 到 `main` 分支时自动构建并部署到 GitHub Pages。
 
@@ -230,28 +191,21 @@ date: 2024-01-01
 
 ### 6.3 添加产品
 
-在 `pages/content/product/` 目录创建 `.md` 文件：
+在 `pages/product/` 目录创建 `.md` 文件：
 
 ```markdown
 ---
-slug: product-slug
 title: 产品名称
 description: 产品描述
+image: 封面图URL
 date: 2024-01-01
-features:
-  - 特性1
-  - 特性2
-techStack:
-  - 技术栈1
+category: 分类标签
 ---
 
 产品内容...
 ```
 
-### 6.4 添加旅行照片
-
-将照片放入 `public/images/interests/travel/` 目录，文件名格式：
-`城市-景点-YYYYMMDD.jpg` 或 `城市-YYYYMM.jpg`
+产品列表页使用 ProductWaterfall 瀑布流组件展示，自动从路由元数据读取所有 `/product/` 路径下的页面。
 
 ## 7. 代码规范
 
