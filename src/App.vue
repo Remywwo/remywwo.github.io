@@ -7,7 +7,7 @@ const viewer = useImageViewer()
 
 const frontmatter = computed(() => (route.meta.frontmatter as Record<string, any>) || {})
 
-const wrapperClass = computed(() => route.path === '/design' ? 'design-wrapper' : 'px-7')
+const wrapperClass = computed(() => route.path === '/product' ? 'product-wrapper' : 'px-7')
 
 useHead({
   title: () => frontmatter.value.tabTitle || frontmatter.value.title || 'Remywwo',
