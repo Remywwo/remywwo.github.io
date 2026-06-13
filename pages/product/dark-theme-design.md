@@ -19,7 +19,7 @@ image: https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit
 
 ## 设计展示
 
-<DesignGallery :images="[
+<ProductGallery :images="[
   'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=800&fit=crop',
   'https://images.unsplash.com/photo-1543286386-713bdd548da4?w=1200&h=800&fit=crop',
   'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1200&h=800&fit=crop',

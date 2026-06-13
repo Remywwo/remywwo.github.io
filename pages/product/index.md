@@ -1,8 +1,6 @@
 ---
-tabTitle: 一些有关产品的思考
+tabTitle: 产品作品集
 art: plum
 ---
 
-<ProductCard />
-
-<ListPosts only-date type="product" />
+<ProductWaterfall />

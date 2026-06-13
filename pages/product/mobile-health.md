@@ -35,7 +35,7 @@ image: https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=800&fit
 
 ## 设计展示
 
-<DesignGallery :images="[
+<ProductGallery :images="[
   'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=800&fit=crop',
   'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=600&h=800&fit=crop',
   'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=800&fit=crop',

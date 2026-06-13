@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router/auto'
 
 const router = useRouter()
 
-interface DesignCard {
+interface ProductCard {
   path: string
   title: string
   description: string
@@ -13,9 +13,9 @@ interface DesignCard {
   category: string
 }
 
-const designs = computed<DesignCard[]>(() => {
+const products = computed<ProductCard[]>(() => {
   return router.getRoutes()
-    .filter(i => i.path.startsWith('/design/') && i.meta.frontmatter.date && !i.meta.frontmatter.draft)
+    .filter(i => i.path.startsWith('/product/') && i.meta.frontmatter.date && !i.meta.frontmatter.draft)
     .filter(i => !i.path.endsWith('.html'))
     .sort((a, b) => +new Date(b.meta.frontmatter.date) - +new Date(a.meta.frontmatter.date))
     .map(i => ({
@@ -37,38 +37,38 @@ function goToDetail(path: string) {
   <div class="waterfall-container">
     <div class="waterfall-grid">
       <article
-        v-for="design in designs"
-        :key="design.path"
+        v-for="product in products"
+        :key="product.path"
         class="design-card"
-        @click="goToDetail(design.path)"
+        @click="goToDetail(product.path)"
       >
         <div class="card-cover">
           <img
-            :src="design.cover"
-            :alt="design.title"
+            :src="product.cover"
+            :alt="product.title"
             loading="lazy"
             class="no-preview"
           >
           <div class="cover-overlay">
-            <span class="category-tag">{{ design.category }}</span>
+            <span class="category-tag">{{ product.category }}</span>
           </div>
         </div>
         <div class="card-body">
           <h2 class="card-title">
-            {{ design.title }}
+            {{ product.title }}
           </h2>
           <p class="card-desc">
-            {{ design.description }}
+            {{ product.description }}
           </p>
           <div class="card-meta">
-            <time>{{ design.date }}</time>
+            <time>{{ product.date }}</time>
           </div>
         </div>
       </article>
     </div>
 
-    <div v-if="designs.length === 0" class="empty-state">
-      <p>暂无设计作品</p>
+    <div v-if="products.length === 0" class="empty-state">
+      <p>暂无产品作品</p>
     </div>
   </div>
 </template>

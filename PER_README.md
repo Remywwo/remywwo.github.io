@@ -44,7 +44,7 @@ remywwo.github.io/
 │   │   └── useHoliday.ts    # 节假日计算逻辑
 │   ├── data/                # 自动生成的数据文件
 │   │   ├── interestsAuto.ts  # 兴趣数据
-│   │   └── productsAuto.ts   # 产品数据
+│   │   └── designsAuto.ts    # 设计数据
 │   ├── lib/                  # 工具库
 │   │   └── markdown.ts       # Markdown 解析实例
 │   ├── styles/              # 样式文件
@@ -54,7 +54,7 @@ remywwo.github.io/
 │   └── main.ts              # 应用入口
 ├── scripts/                  # 构建脚本
 │   ├── generateInterests.ts  # 生成兴趣数据
-│   ├── generateProducts.ts   # 生成产品数据
+│   ├── generateProducts.ts   # 生成设计数据
 │   ├── rss.ts               # 生成 RSS 订阅
 │   └── slugify.ts           # URL slug 处理
 ├── content-creator/          # 内容创作工具（独立 Next.js 应用）
@@ -99,10 +99,10 @@ remywwo.github.io/
   - 支持目录生成 `[[toc]]`
 - **[date].md**：Fallback 路由，显示"暂无记录"
 
-### 3.4 产品模块 (pages/product/)
+### 3.4 设计模块 (pages/design/)
 
-- ProductCard 组件：产品卡片展示
-- 产品数据从 `pages/content/product/` 目录自动生成
+- DesignCard 组件：设计卡片展示
+- 设计数据从 `pages/content/design/` 目录自动生成
 
 ### 3.5 兴趣模块 (pages/interest/)
 
@@ -190,7 +190,7 @@ pnpm build
 
 ```bash
 esno ./scripts/generateInterests.ts  # 生成 src/data/interestsAuto.ts
-esno ./scripts/generateProducts.ts   # 生成 src/data/productsAuto.ts
+esno ./scripts/generateProducts.ts   # 生成 src/data/designsAuto.ts
 ```
 
 ### 5.3 部署

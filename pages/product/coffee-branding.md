@@ -19,7 +19,7 @@ image: https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&h=600&
 
 ## 设计展示
 
-<DesignGallery :images="[
+<ProductGallery :images="[
   'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&h=800&fit=crop',
   'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&h=800&fit=crop',
 ]" alt="精品咖啡品牌升级" />

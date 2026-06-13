@@ -17,7 +17,7 @@ function open(index: number) {
 </script>
 
 <template>
-  <div class="design-gallery">
+  <div class="product-gallery">
     <div class="gallery-grid">
       <div
         v-for="(src, index) in images"
@@ -36,7 +36,7 @@ function open(index: number) {
 </template>
 
 <style scoped>
-.design-gallery {
+.product-gallery {
   margin: 2rem 0;
 }
 

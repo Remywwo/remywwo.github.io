@@ -20,7 +20,7 @@ image: https://images.unsplash.com/photo-1634942537034-2531766767d1?w=800&h=600&
 
 ## 设计展示
 
-<DesignGallery :images="[
+<ProductGallery :images="[
   'https://images.unsplash.com/photo-1634942537034-2531766767d1?w=1200&h=800&fit=crop',
   'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=1200&h=800&fit=crop',
 ]" alt="新消费品牌视觉体系" />

@@ -125,7 +125,7 @@ function getGroupName(p: Post) {
 function getCardBorderClass() {
   switch (props.type) {
     case 'interest':
-    case 'product':
+    case 'design':
       return 'card-border-none'
     default:
       return 'card-border-default'

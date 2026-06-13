@@ -23,7 +23,6 @@ const allPosts = computed(() => {
       const hasDate = i.meta.frontmatter.date && !i.meta.frontmatter.draft
       const validPath = !i.path.endsWith('.html')
       const isMainContent = i.path.startsWith('/posts')
-        || i.path.startsWith('/product')
         || i.path.startsWith('/interest')
         || i.path.startsWith('/daily')
       return hasDate && validPath && isMainContent
@@ -64,7 +63,7 @@ function navigate(path: string) {
 function getTypeLabel(type: string) {
   const labels: Record<string, string> = {
     posts: '博客',
-    product: '产品',
+    design: '设计',
     interest: '兴趣',
     daily: '日常',
   }

@@ -1,4 +1,4 @@
-export type ContentType = 'post' | 'daily' | 'product-daily' | 'product-new' | 'interest' | 'travel-album'
+export type ContentType = 'post' | 'daily' | 'design-daily' | 'design-new' | 'interest' | 'travel-album'
 
 export interface Field {
   key: string
@@ -46,10 +46,10 @@ export const contentConfigs: Record<ContentType, ContentConfig> = {
       { key: 'images', label: '配图', type: 'images', required: false },
     ],
   },
-  'product-daily': {
-    type: 'product-daily',
-    label: '产品碎记',
-    directory: 'pages/product',
+  'design-daily': {
+    type: 'design-daily',
+    label: '设计碎记',
+    directory: 'pages/design',
     extension: '.md',
     fields: [
       { key: 'title', label: '标题', type: 'text', required: true },
@@ -60,10 +60,10 @@ export const contentConfigs: Record<ContentType, ContentConfig> = {
       { key: 'images', label: '配图', type: 'images', required: false },
     ],
   },
-  'product-new': {
-    type: 'product-new',
-    label: '新增产品',
-    directory: 'pages/content/product',
+  'design-new': {
+    type: 'design-new',
+    label: '新增设计',
+    directory: 'pages/content/design',
     extension: '.md',
     fields: [
       { key: 'title', label: '标题', type: 'text', required: true },
@@ -74,7 +74,7 @@ export const contentConfigs: Record<ContentType, ContentConfig> = {
       { key: 'techStack', label: '技术栈', type: 'textarea', required: false },
       { key: 'features', label: '核心功能', type: 'textarea', required: false },
       { key: 'github', label: 'GitHub 链接', type: 'text', required: false },
-      { key: 'product_link', label: '项目链接', type: 'text', required: false },
+      { key: 'design_link', label: '项目链接', type: 'text', required: false },
       { key: 'images', label: '配图', type: 'images', required: false },
     ],
   },

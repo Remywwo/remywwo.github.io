@@ -19,7 +19,7 @@ image: https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&
 
 ## 设计展示
 
-<DesignGallery :images="[
+<ProductGallery :images="[
   'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&h=800&fit=crop',
   'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&h=800&fit=crop',
 ]" alt="旅行预订 App" />

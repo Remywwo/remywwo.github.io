@@ -19,7 +19,7 @@ image: https://images.unsplash.com/photo-1558002038-1055907df827?w=800&h=600&fit
 
 ## 设计展示
 
-<DesignGallery :images="[
+<ProductGallery :images="[
   'https://images.unsplash.com/photo-1558002038-1055907df827?w=600&h=800&fit=crop',
   'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=800&fit=crop',
 ]" alt="智能家居控制 App" />
