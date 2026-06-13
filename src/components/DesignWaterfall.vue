@@ -47,6 +47,7 @@ function goToDetail(path: string) {
             :src="design.cover"
             :alt="design.title"
             loading="lazy"
+            class="no-preview"
           >
           <div class="cover-overlay">
             <span class="category-tag">{{ design.category }}</span>
