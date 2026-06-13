@@ -53,6 +53,8 @@ description: Anthropic 分享了过去一年与数十个团队合作构建 LLM �
 
 智能体系统的基本构建模块是增强了检索、工具和记忆能力的 LLM。我们当前的模型可以主动使用这些能力——生成自己的搜索查询、选择合适的工具，以及确定保留哪些信息。
 
+![The augmented LLM](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fd3083d3f40bb2b6f477901cc9a240738d3dd1371-2401x1000.png&w=3840&q=75)
+
 我们建议关注实现的两个关键方面：根据你的具体用例定制这些能力，以及为 LLM 提供一个易于使用且有完善文档的接口。实现这些增强的方式有很多种，其中一种是通过我们最近发布的 [Model Context Protocol](https://www.anthropic.com/news/model-context-protocol)，它允许开发者通过简单的 [客户端实现](https://modelcontextprotocol.io/tutorials/building-a-client#building-mcp-clients) 与不断增长的第三方工具生态系统集成。
 
 在本文的剩余部分，我们假设每次 LLM 调用都可以访问这些增强能力。
@@ -60,6 +62,8 @@ description: Anthropic 分享了过去一年与数十个团队合作构建 LLM �
 ### 工作流：Prompt Chaining（链式提示）
 
 Prompt Chaining 将任务分解为一系列步骤，每个 LLM 调用处理前一个的输出。你可以在任何中间步骤添加编程检查（见下图中的"gate"）以确保过程仍在正轨上。
+
+![The prompt chaining workflow](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F7418719e3dab222dccb379b8879e1dc08ad34c78-2401x1000.png&w=3840&q=75)
 
 **何时使用此工作流**：当任务可以轻松、干净地分解为固定子任务时，这种工作流是理想的。主要目标是通过让每次 LLM 调用成为更简单的任务来以延迟换取更高的准确性。
 
@@ -71,6 +75,8 @@ Prompt Chaining 将任务分解为一系列步骤，每个 LLM 调用处理前�
 ### 工作流：Routing（路由）
 
 路由对输入进行分类并将其引导到专门的后续任务。这种工作流允许关注点分离，并构建更专业的 prompt。如果没有这种工作流，优化一种输入类型可能会损害其他输入的性能。
+
+![The routing workflow](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F5c0c0e9fe4def0b584c04d37849941da55e5e71c-2401x1000.png&w=3840&q=75)
 
 **何时使用此工作流**：路由适用于复杂任务中有明显不同类别需要分别处理，且分类可以准确执行（通过 LLM 或更传统的分类模型/算法）的场景。
 
@@ -86,6 +92,8 @@ LLM 有时可以同时处理任务，并通过程序聚合其输出。这种工�
 - **Sectioning**：将任务分解为并行运行的独立子任务。
 - **Voting**：多次运行同一任务以获得多样化的输出。
 
+![The parallelization workflow](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F406bb032ca007fd1624f261af717d70e6ca86286-2401x1000.png&w=3840&q=75)
+
 **何时使用此工作流**：当分解的子任务可以并行化以提高速度，或者需要多个视角或尝试以获得更高置信度的结果时，并行化是有效的。对于具有多个考虑因素的复杂任务，LLM 通常在每个考虑因素由单独的 LLM 调用处理时表现更好，从而允许专注处理每个特定方面。
 
 **适合使用并行化的场景**：
@@ -99,6 +107,8 @@ LLM 有时可以同时处理任务，并通过程序聚合其输出。这种工�
 
 在编排器-工作者工作流中，一个中心 LLM 动态分解任务，将其委托给工作者 LLM，并综合它们的结果。
 
+![The orchestrator-workers workflow](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F8985fc683fae4780fb34eab1365ab78c7e51bc8e-2401x1000.png&w=3840&q=75)
+
 **何时使用此工作流**：这种工作流非常适合复杂任务，因为在这些任务中，你无法预测所需的子任务（例如在编码中，可能需要修改的文件数量以及每个文件中改动的性质很可能取决于任务）。虽然它在地形上与并行化相似，但关键区别在于其灵活性——子任务不是预定义的，而是由编排器根据特定输入决定的。
 
 **适合使用编排器-工作者工作流的场景**：
@@ -109,6 +119,8 @@ LLM 有时可以同时处理任务，并通过程序聚合其输出。这种工�
 ### 工作流：Evaluator-Optimizer（评估器-优化器）
 
 在评估器-优化器工作流中，一次 LLM 调用生成响应，而另一次在循环中提供评估和反馈。
+
+![The evaluator-optimizer workflow](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F14f51e6406ccb29e695da48b17017e899a6119c7-2401x1000.png&w=3840&q=75)
 
 **何时使用此工作流**：当我们有明确的评估标准且迭代优化能带来可衡量的价值时，这种工作流特别有效。两个适合的标志是：第一，当人类阐述他们的反馈时，LLM 响应可以明显改进；第二，LLM 能够提供此类反馈。这类似于人类作家在制作精品文档时可能经历的迭代写作过程。
 
@@ -123,6 +135,8 @@ LLM 有时可以同时处理任务，并通过程序聚合其输出。这种工�
 
 智能体可以处理复杂的任务，但其实现通常很简单。它们本质上只是基于环境反馈在循环中使用工具的 LLM。因此，清晰且深思熟虑地设计工具集及其文档至关重要。我们将在附录2（"为工具做 Prompt Engineering"）中扩展工具开发的最佳实践。
 
+![Autonomous agents](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F58d9f10c985c4eb5d53798dea315f7bb5ab6249e-2401x1000.png&w=3840&q=75)
+
 **何时使用智能体**：智能体可用于开放性问题，在这些问题中，很难或不可能预测所需的步数，且无法硬编码固定路径。LLM 可能需要运行许多轮次，你必须对其决策能力有一定程度的信任。智能体的自主性使其成为在可信环境中扩展任务的理想选择。
 
 智能体的自主性意味着更高的成本，以及误差累积的潜在可能。我们建议在沙盒环境中进行广泛测试，并配备适当的护栏。
@@ -133,6 +147,8 @@ LLM 有时可以同时处理任务，并通过程序聚合其输出。这种工�
 
 - 解决 [SWE-bench 任务](https://www.anthropic.com/research/swe-bench-sonnet) 的编码智能体，这些任务涉及根据任务描述对多个文件进行编辑；
 - 我们的["计算机使用"参考实现](https://github.com/anthropics/anthropic-quickstarts/tree/main/computer-use-demo)，其中 Claude 使用计算机完成任务。
+
+![High-level flow of a coding agent](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F4b9a1f4eb63d5962a6e1746ac26bbc857cf3474f-2400x1666.png&w=3840&q=75)
 
 ## 组合和定制这些模式
 
