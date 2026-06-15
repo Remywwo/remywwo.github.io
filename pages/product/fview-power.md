@@ -33,6 +33,7 @@ Electron + Monaco Editor + PDF.js + marked.js，跨平台支持 macOS、Windows�
   '/images/fview-power/iShot_2026-06-15_18.40.44.png',
   '/images/fview-power/iShot_2026-06-15_18.41.52.png',
   '/images/fview-power/iShot_2026-06-15_18.42.27.png',
+  '/images/fview-power/iShot_2026-06-15_19.27.23.png',
   '/images/fview-power/iShot_2026-06-15_18.41.02.png',
   '/images/fview-power/iShot_2026-06-15_19.00.27.png'
 ]" alt="FView Power" />
