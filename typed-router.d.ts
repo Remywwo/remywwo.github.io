@@ -56,6 +56,7 @@ declare module 'vue-router/auto-routes' {
     '/product/enterprise-saas': RouteRecordInfo<'/product/enterprise-saas', '/product/enterprise-saas', Record<never, never>, Record<never, never>>,
     '/product/fintech-dashboard': RouteRecordInfo<'/product/fintech-dashboard', '/product/fintech-dashboard', Record<never, never>, Record<never, never>>,
     '/product/fitness-coach': RouteRecordInfo<'/product/fitness-coach', '/product/fitness-coach', Record<never, never>, Record<never, never>>,
+    '/product/fview-power': RouteRecordInfo<'/product/fview-power', '/product/fview-power', Record<never, never>, Record<never, never>>,
     '/product/landing-optimization': RouteRecordInfo<'/product/landing-optimization', '/product/landing-optimization', Record<never, never>, Record<never, never>>,
     '/product/mobile-health': RouteRecordInfo<'/product/mobile-health', '/product/mobile-health', Record<never, never>, Record<never, never>>,
     '/product/restaurant-pos': RouteRecordInfo<'/product/restaurant-pos', '/product/restaurant-pos', Record<never, never>, Record<never, never>>,
