@@ -7,7 +7,7 @@ category: 桌面应用
 image: /images/fview-power/first.png
 ---
 
-[官网](https://f-view-power.vercel.app/)
+[官网](https://remywwo.com/FView-Power/)
 
 ## 项目背景
 
