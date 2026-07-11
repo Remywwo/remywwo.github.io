@@ -46,6 +46,7 @@ declare module 'vue-router/auto-routes' {
     '/posts/行业与竞品分析': RouteRecordInfo<'/posts/行业与竞品分析', '/posts/行业与竞品分析', Record<never, never>, Record<never, never>>,
     '/posts/解构是使用对象还是数组': RouteRecordInfo<'/posts/解构是使用对象还是数组', '/posts/解构是使用对象还是数组', Record<never, never>, Record<never, never>>,
     '/product/': RouteRecordInfo<'/product/', '/product', Record<never, never>, Record<never, never>>,
+    '/product/for-today-miniprogram': RouteRecordInfo<'/product/for-today-miniprogram', '/product/for-today-miniprogram', Record<never, never>, Record<never, never>>,
     '/product/fview-power': RouteRecordInfo<'/product/fview-power', '/product/fview-power', Record<never, never>, Record<never, never>>,
     '/thinking/': RouteRecordInfo<'/thinking/', '/thinking', Record<never, never>, Record<never, never>>,
   }
