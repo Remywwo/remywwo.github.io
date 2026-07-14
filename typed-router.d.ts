@@ -49,5 +49,7 @@ declare module 'vue-router/auto-routes' {
     '/product/for-today-miniprogram': RouteRecordInfo<'/product/for-today-miniprogram', '/product/for-today-miniprogram', Record<never, never>, Record<never, never>>,
     '/product/fview-power': RouteRecordInfo<'/product/fview-power', '/product/fview-power', Record<never, never>, Record<never, never>>,
     '/thinking/': RouteRecordInfo<'/thinking/', '/thinking', Record<never, never>, Record<never, never>>,
+    '/tools/': RouteRecordInfo<'/tools/', '/tools', Record<never, never>, Record<never, never>>,
+    '/tools/markdown-formatter': RouteRecordInfo<'/tools/markdown-formatter', '/tools/markdown-formatter', Record<never, never>, Record<never, never>>,
   }
 }
