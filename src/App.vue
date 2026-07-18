@@ -58,10 +58,13 @@ onKeyStroke('Escape', (e) => {
   <NavBar />
   <main class="mt-28 mb-5 of-x-hidden" :class="wrapperClass">
     <RouterView />
-    <ClientOnly>
+    <!-- <ClientOnly>
       <ParticleNetwork v-if="route.path === '/daily'" />
-    </ClientOnly>
+    </ClientOnly> -->
     <Footer :key="route.path" />
   </main>
   <ImageViewer />
+  <!-- <ClientOnly>
+    <DifyChatbot v-if="route.path === '/'" />
+  </ClientOnly> -->
 </template>

@@ -58,7 +58,7 @@ const tools = [
   display: flex;
   gap: 1rem;
   padding: 1.25rem;
-  border: 1px solid var(--c-border);
+  border: 1px solid transparent;
   border-radius: 0.5rem;
   background: var(--c-bg-soft);
   color: inherit;
@@ -71,8 +71,12 @@ const tools = [
 
 .tool-card:hover {
   transform: translateY(-2px);
-  border-color: var(--fg-light);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  /* border-color: var(--fg-light); */
+  /* box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08); */
+  border-color: var(--c-border);
+  background: var(--c-bg-soft);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
 .dark .tool-card:hover {

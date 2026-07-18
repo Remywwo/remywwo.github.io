@@ -80,7 +80,7 @@ function goToDetail(path: string) {
 }
 
 .waterfall-grid {
-  column-count: 4;
+  column-count: 2;
   column-gap: 1.25rem;
 }
 

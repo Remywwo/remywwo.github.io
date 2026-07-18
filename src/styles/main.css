@@ -20,11 +20,6 @@ html.dark {
   --c-scrollbar-hover: #222;
 }
 
-.product-wrapper .slide-enter-content {
-  /* margin: auto 4rem; */
-  max-width: 70vw;
-}
-
 ::selection {
   background: #8884;
 }
