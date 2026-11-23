@@ -9,6 +9,8 @@
  */
 
 import { execFile } from 'node:child_process'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import { scrubbedParentEnv } from '@deepseek-ai/dsh-subprocess'
 
 /** Content sections the publisher can commit, keyed by their directory name. */
@@ -394,5 +396,87 @@ export async function publishPost(options, contentRoot, defaultBranch, request) 
   }
   catch (error) {
     return failure('publish_failed', error instanceof Error ? error.message : String(error))
+  }
+}
+
+/**
+ * Turn a title into a file name the content tree accepts.
+ *
+ * Chinese titles stay as they are: the published tree already names files in
+ * Chinese, and a transliterated slug would read worse than the title.
+ * @param {string} title - The authored title.
+ * @returns {string} The bare file stem, without extension.
+ */
+function stemOf(title) {
+  return title
+    .trim()
+    // eslint-disable-next-line no-control-regex
+    .replace(/[/\\:*?"<>|\u0000-\u001F]/g, '-')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^[-.]+|[-.]+$/g, '')
+    .slice(0, 80)
+}
+
+/**
+ * Create one new Markdown file under a section directory.
+ *
+ * The file is written with the frontmatter the site reads, so a caller can
+ * publish it immediately. An existing file is never overwritten.
+ * @param {string} repositoryPath - Absolute repository directory.
+ * @param {string} contentRoot - Directory under the repository holding content.
+ * @param {{ section: string, title: string, date?: string, body?: string }} request - The creation request.
+ * @returns {Promise<object>} The canonical creation result.
+ */
+export async function createContentFile(repositoryPath, contentRoot, request) {
+  try {
+    const sectionDir = SECTIONS[request.section]
+    if (!sectionDir)
+      throw new Error(`section must be one of ${SECTION_CHOICES.join(', ')}`)
+
+    const title = request.title?.trim()
+    if (!title)
+      throw new Error('title is required')
+
+    const stem = stemOf(title)
+    if (!stem)
+      throw new Error('title must contain at least one usable character')
+
+    const relative = `${contentRoot}/${sectionDir}/${stem}.md`
+    const absolute = join(repositoryPath, relative)
+
+    // Never clobber authored content.
+    let exists = false
+    try {
+      await readFile(absolute, 'utf8')
+      exists = true
+    }
+    catch {
+      exists = false
+    }
+    if (exists)
+      return failure('already_exists', `The file ${relative} already exists.`)
+
+    const date = request.date?.trim() || new Date().toISOString().slice(0, 10)
+    const body = request.body?.trim() ? `\n${request.body.trim()}\n` : ''
+    const frontmatter = [
+      '---',
+      `title: ${title}`,
+      `date: ${date}`,
+      'lang: zh-CN',
+      `type: ${request.section === 'post' ? 'blog' : request.section}`,
+      '---',
+      '',
+      '',
+      body,
+    ].join('\n')
+
+    await mkdir(join(repositoryPath, `${contentRoot}/${sectionDir}`), { recursive: true })
+    await writeFile(absolute, frontmatter, 'utf8')
+
+    return { ok: true, path: relative, section: request.section }
+  }
+  catch (error) {
+    return failure('create_failed', error instanceof Error ? error.message : String(error))
   }
 }

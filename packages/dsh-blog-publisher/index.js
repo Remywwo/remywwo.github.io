@@ -13,6 +13,7 @@
 
 import { TypertRemoteService } from '@deepseek-ai/dsh-typert-protocol'
 import {
+  createContentFile,
   listContentFiles,
   previewPost,
   publishPost,
@@ -170,15 +171,28 @@ export class BlogPublisher extends TypertRemoteService {
       request,
     )
   }
+
+  /**
+   * Create one new Markdown file under a section directory.
+   * @param {{ section: string, title: string, date?: string, body?: string, repositoryPath?: string }} request - The creation request.
+   * @param {AbortSignal} signal - Caller cancellation.
+   * @returns The canonical creation result.
+   */
+  async createPost(request, signal) {
+    signal?.throwIfAborted()
+    const cwd = this.repositoryFor(request.repositoryPath)
+    return createContentFile(cwd, this.resolved.contentRoot, request)
+  }
 }
 
-// Mark the three public methods as Remote invocations. `@Remote` cannot be
-// written in plain JavaScript, so the same prototype record is written here.
+// Mark the public methods as Remote invocations. `@Remote` cannot be written in
+// plain JavaScript, so the same prototype record is written here.
 {
   const prototype = BlogPublisher.prototype
   markRemoteMethod(prototype, 'listFiles')
   markRemoteMethod(prototype, 'preview')
   markRemoteMethod(prototype, 'publish')
+  markRemoteMethod(prototype, 'createPost')
 }
 
 export { resolveConfig }
