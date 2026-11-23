@@ -293,7 +293,10 @@ export async function publishPost(options, contentRoot, defaultBranch, request) 
     const assetDirectory = relative.replace(/\.md$/, '')
     const owns = entry => entry === relative || entry === assetDirectory || entry.startsWith(`${assetDirectory}/`)
 
-    const status = await runOrThrow('git', ['status', '--porcelain'], options)
+    // `core.quotePath=false` keeps non-ASCII paths verbatim; the default
+    // escapes them as octal, which would never match the requested path. This
+    // tree names files in Chinese, so that is the common case, not the corner.
+    const status = await runOrThrow('git', ['-c', 'core.quotePath=false', 'status', '--porcelain'], options)
     const unrelated = status
       .split('\n')
       .filter(line => line.length > 3)
