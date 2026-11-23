@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Blog publisher",
-    "description": "Publish Markdown blog posts to GitHub and open a pull request that triggers the site deployment. Type /publish or /preview to pick a post from a popup grouped by section, or give the path directly. In a session the blog_preview and blog_publish tools do the same.",
+    "description": "Lets the model publish Markdown blog posts to GitHub and open a pull request that triggers the site deployment. It provides blog_preview, which builds the site to check rendering, and blog_publish, which commits the document together with its asset folder onto a topic branch, pushes it, and opens the pull request. It never pushes to the base branch, never merges, and refuses when the working tree holds unrelated changes.",
     "detail": "docs/DETAIL.md"
   }
 }

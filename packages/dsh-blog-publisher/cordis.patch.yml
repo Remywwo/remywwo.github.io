@@ -7,21 +7,3 @@
         contentRoot: pages
         timeoutMs: 120000
         maxOutputBytes: 1048576
-
-    - id: blog-publisher-tools
-      name: '@local/blog-publisher/tools'
-      config:
-        repositoryPath: !!js process.env.DSH_BLOG_REPO_PATH ?? ''
-        defaultBranch: main
-        contentRoot: pages
-        timeoutMs: 120000
-        maxOutputBytes: 1048576
-
-    - id: blog-publisher-commands
-      name: '@local/blog-publisher/commands'
-      config:
-        repositoryPath: !!js process.env.DSH_BLOG_REPO_PATH ?? ''
-        defaultBranch: main
-        contentRoot: pages
-        timeoutMs: 120000
-        maxOutputBytes: 1048576

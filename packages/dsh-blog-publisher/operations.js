@@ -270,31 +270,6 @@ export async function listChecks(options, branch) {
 }
 
 /**
- * List the publishable Markdown files of one repository.
- *
- * The listing walks the content root and reports each Markdown file with the
- * section it belongs to, so a caller can choose without knowing the layout.
- * @param {{ cwd: string, timeoutMs: number, maxOutputBytes: number, signal: AbortSignal }} options - Execution limits.
- * @param {string} contentRoot - Directory under the repository holding content.
- * @returns {Promise<{ path: string, section: string }[]>} The publishable files.
- */
-export async function listContentFiles(options, contentRoot) {
-  const output = await run('git', ['ls-files', '--', contentRoot], options)
-  if (output.exitCode !== 0)
-    return []
-  const files = []
-  for (const line of output.stdout.split('\n')) {
-    const path = line.trim()
-    if (!path.endsWith('.md'))
-      continue
-    const section = SECTION_CHOICES.find(name => path.startsWith(`${contentRoot}/${SECTIONS[name]}/`))
-    if (section)
-      files.push({ path, section })
-  }
-  return files
-}
-
-/**
  * Build the site locally and report the outcome.
  * @param {{ cwd: string, timeoutMs: number, maxOutputBytes: number, signal: AbortSignal }} options - Execution limits.
  * @param {string} contentRoot - Directory under the repository holding content.

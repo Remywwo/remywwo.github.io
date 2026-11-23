@@ -6,24 +6,20 @@
   "description": "Publish Markdown blog posts from a DSH session to GitHub and open a pull request that triggers the site deployment",
   "license": "MIT",
   "exports": {
-    ".": "./index.js",
-    "./client": "./client.js",
+    ".": "./tools.js",
     "./operations": "./operations.js",
-    "./tools": "./tools.js",
+    "./config": "./config.js",
     "./cordis.patch.yml": "./cordis.patch.yml",
     "./locale/*.json": "./locale/*.json",
     "./icon": "./icon.svg",
-    "./package.json": "./package.json",
-    "./commands": "./commands.js"
+    "./package.json": "./package.json"
   },
-  "main": "./index.js",
+  "main": "./tools.js",
   "files": [
-    "client.js",
-    "commands.js",
+    "config.js",
     "cordis.patch.yml",
     "docs",
     "icon.svg",
-    "index.js",
     "locale/*.json",
     "operations.js",
     "tools.js"
@@ -31,23 +27,12 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
-    },
-    "client": {
-      "platform": "web",
-      "inject": [
-        "@deepseek-ai/dsh-api-gateway",
-        "@deepseek-ai/dsh-api-remotes",
-        "@deepseek-ai/dsh-client-locale",
-        "@deepseek-ai/dsh-client-ui-commands"
-      ]
     }
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "~4.1.0",
-    "@deepseek-ai/dsh-commands": "0.2.2-rc.5",
     "@deepseek-ai/dsh-subprocess": "0.2.2-rc.5",
     "@deepseek-ai/dsh-tools": "0.2.2-rc.5",
-    "@deepseek-ai/dsh-typert-protocol": "0.2.2-rc.5",
     "@deepseek-ai/dsh-working-directory": "0.2.2-rc.5"
   }
 }

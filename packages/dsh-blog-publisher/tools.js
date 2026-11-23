@@ -1,18 +1,18 @@
 /**
  * The model-facing `blog_publish` and `blog_preview` tools.
  *
- * Both call the same operations the sidebar panel calls, so a fix changes
- * every path and no path can drift from another.
+ * These are this plugin's only surface: the model decides when to publish, and
+ * every operation lives in `./operations.js` so one fix reaches both tools.
  *
- * @module @local/blog-publisher/tools
+ * @module @local/blog-publisher
  */
 
 import { defineTool } from '@deepseek-ai/dsh-tools'
-import { resolveConfig } from './index.js'
+import { resolveConfig } from './config.js'
 import { previewPost, publishPost, SECTION_CHOICES } from './operations.js'
 
 /** Plugin name registered with the Loader. */
-export const name = 'blog-publisher-tools'
+export const name = 'blog-publisher'
 
 /** Host services this plugin consumes. */
 export const inject = ['tools', 'systemPrompt', 'workingDirectory']
