@@ -12,13 +12,7 @@
  */
 
 import { TypertRemoteService } from '@deepseek-ai/dsh-typert-protocol'
-import {
-  createContentFile,
-  listContentFiles,
-  previewPost,
-  publishPost,
-  readRepositoryState,
-} from './operations.js'
+import { listContentFiles } from './operations.js'
 
 /**
  * The prototype property the Typert protocol stores its method markers in.
@@ -131,68 +125,25 @@ export class BlogPublisher extends TypertRemoteService {
 
   /**
    * List the publishable Markdown files of the repository.
+   *
+   * This is the one Remote method this plugin exposes: the slash-command
+   * picker lists files through it. Every other operation runs on the Host,
+   * inside its command handler.
    * @param {string | undefined} repositoryPath - Repository directory override.
    * @param {AbortSignal} signal - Caller cancellation.
-   * @returns The publishable files and the repository's current state.
+   * @returns {{ files: { path: string, section: string }[] }} The publishable files.
    */
   async listFiles(repositoryPath, signal) {
     const cwd = this.repositoryFor(repositoryPath)
-    const options = this.optionsFor(cwd, signal)
-    const [files, state] = await Promise.all([
-      listContentFiles(options, this.resolved.contentRoot),
-      readRepositoryState(options),
-    ])
-    return { files, state }
-  }
-
-  /**
-   * Build the site locally and report the outcome.
-   * @param {{ path: string, section: string, repositoryPath?: string }} request - The preview request.
-   * @param {AbortSignal} signal - Caller cancellation.
-   * @returns The canonical preview result.
-   */
-  async preview(request, signal) {
-    const cwd = this.repositoryFor(request.repositoryPath)
-    return previewPost(this.optionsFor(cwd, signal), this.resolved.contentRoot, request.path, request.section)
-  }
-
-  /**
-   * Commit one Markdown file, push it, and open a pull request.
-   * @param {{ path: string, section: string, message: string, branch?: string, repositoryPath?: string }} request - The publish request.
-   * @param {AbortSignal} signal - Caller cancellation.
-   * @returns The canonical publish result.
-   */
-  async publish(request, signal) {
-    const cwd = this.repositoryFor(request.repositoryPath)
-    return publishPost(
-      this.optionsFor(cwd, signal),
-      this.resolved.contentRoot,
-      this.resolved.defaultBranch,
-      request,
-    )
-  }
-
-  /**
-   * Create one new Markdown file under a section directory.
-   * @param {{ section: string, title: string, date?: string, body?: string, repositoryPath?: string }} request - The creation request.
-   * @param {AbortSignal} signal - Caller cancellation.
-   * @returns The canonical creation result.
-   */
-  async createPost(request, signal) {
-    signal?.throwIfAborted()
-    const cwd = this.repositoryFor(request.repositoryPath)
-    return createContentFile(cwd, this.resolved.contentRoot, request)
+    const files = await listContentFiles(this.optionsFor(cwd, signal), this.resolved.contentRoot)
+    return { files }
   }
 }
 
-// Mark the public methods as Remote invocations. `@Remote` cannot be written in
+// Mark the public method as a Remote invocation. `@Remote` cannot be written in
 // plain JavaScript, so the same prototype record is written here.
 {
-  const prototype = BlogPublisher.prototype
-  markRemoteMethod(prototype, 'listFiles')
-  markRemoteMethod(prototype, 'preview')
-  markRemoteMethod(prototype, 'publish')
-  markRemoteMethod(prototype, 'createPost')
+  markRemoteMethod(BlogPublisher.prototype, 'listFiles')
 }
 
 export { resolveConfig }

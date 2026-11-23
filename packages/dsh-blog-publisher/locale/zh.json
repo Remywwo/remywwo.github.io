@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "博客发布器",
-    "description": "把 Markdown 博客文章发布到 GitHub 并创建触发站点部署的 Pull Request。右侧栏「博客发布」面板可选择文件、预览与发布；会话中也可由模型调用 blog_preview 与 blog_publish 两个工具。",
+    "description": "把 Markdown 博客文章发布到 GitHub 并创建触发站点部署的 Pull Request。输入 /publish 或 /preview 后从弹窗按分区挑选文章，选中即执行；也可以直接带上路径。会话中还可由模型调用 blog_preview 与 blog_publish 两个工具。",
     "detail": "docs/DETAIL.zh.md"
   }
 }

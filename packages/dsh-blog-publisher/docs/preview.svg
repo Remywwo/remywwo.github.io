@@ -2,52 +2,50 @@
   <rect width="640" height="300" rx="12" fill="#F5F6FA" />
   <rect x="0.5" y="0.5" width="639" height="299" rx="11.5" stroke="#E2E5EF" />
 
-  <!-- conversation side -->
-  <rect x="32" y="32" width="330" height="236" rx="10" fill="#FFFFFF" stroke="#E2E5EF" />
-  <circle cx="54" cy="54" r="4" fill="#FF6058" />
-  <circle cx="70" cy="54" r="4" fill="#FFBD2E" />
-  <circle cx="86" cy="54" r="4" fill="#28CA42" />
-  <rect x="52" y="78" width="250" height="26" rx="6" fill="#F3F4F8" />
-  <rect x="64" y="86" width="180" height="10" rx="5" fill="#B9C0D4" />
-  <rect x="52" y="114" width="290" height="26" rx="6" fill="#F3F4F8" />
-  <rect x="64" y="122" width="210" height="10" rx="5" fill="#B9C0D4" />
-  <rect x="52" y="150" width="290" height="44" rx="6" fill="#EEF1FB" />
-  <rect x="64" y="160" width="200" height="9" rx="4.5" fill="#4D6BFE" />
-  <rect x="64" y="176" width="140" height="9" rx="4.5" fill="#8CA4FF" />
-  <rect x="52" y="208" width="290" height="14" rx="4" fill="#EDEFF5" />
-  <rect x="52" y="240" width="120" height="14" rx="4" fill="#EDEFF5" />
+  <!-- composer with a typed slash command -->
+  <rect x="32" y="32" width="360" height="52" rx="10" fill="#FFFFFF" stroke="#E2E5EF" />
+  <rect x="46" y="48" width="26" height="18" rx="5" fill="#EEF1FB" />
+  <rect x="54" y="54" width="10" height="7" rx="2" fill="#4D6BFE" />
+  <rect x="82" y="52" width="86" height="10" rx="5" fill="#4A5064" />
+  <rect x="176" y="52" width="2" height="11" rx="1" fill="#4D6BFE" />
 
-  <!-- arrow to panel -->
-  <path d="M372 150H420" stroke="#8CA4FF" stroke-width="3" stroke-linecap="round" />
-  <path d="M408 140L420 150L408 160" stroke="#8CA4FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- conversation lines below -->
+  <rect x="32" y="100" width="360" height="26" rx="6" fill="#F3F4F8" />
+  <rect x="46" y="108" width="200" height="10" rx="5" fill="#B9C0D4" />
+  <rect x="32" y="136" width="360" height="26" rx="6" fill="#F3F4F8" />
+  <rect x="46" y="144" width="260" height="10" rx="5" fill="#B9C0D4" />
 
-  <!-- sidebar panel -->
-  <rect x="430" y="32" width="178" height="236" rx="10" fill="#FFFFFF" stroke="#E2E5EF" />
-  <!-- panel header -->
-  <rect x="444" y="46" width="72" height="10" rx="5" fill="#4A5064" />
-  <rect x="542" y="43" width="52" height="16" rx="5" fill="#EEF1FB" />
-  <!-- repo state card -->
-  <rect x="444" y="72" width="150" height="40" rx="6" fill="#F3F4F8" />
-  <rect x="452" y="80" width="34" height="7" rx="3.5" fill="#B9C0D4" />
-  <rect x="490" y="80" width="44" height="7" rx="3.5" fill="#8C93A8" />
-  <rect x="452" y="94" width="34" height="7" rx="3.5" fill="#B9C0D4" />
-  <rect x="490" y="94" width="60" height="7" rx="3.5" fill="#28CA42" />
-  <!-- file select -->
-  <rect x="444" y="122" width="40" height="7" rx="3.5" fill="#B9C0D4" />
-  <rect x="444" y="134" width="150" height="22" rx="5" fill="#FFFFFF" stroke="#D8DCE8" />
-  <rect x="452" y="141" width="92" height="8" rx="4" fill="#4A5064" />
-  <path d="M578 142L582 146L578 150" stroke="#8C93A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-  <!-- message input -->
-  <rect x="444" y="166" width="56" height="7" rx="3.5" fill="#B9C0D4" />
-  <rect x="444" y="178" width="150" height="22" rx="5" fill="#FFFFFF" stroke="#D8DCE8" />
-  <rect x="452" y="185" width="70" height="8" rx="4" fill="#C5CBDB" />
-  <!-- actions -->
-  <rect x="444" y="212" width="72" height="22" rx="5" fill="#FFFFFF" stroke="#D8DCE8" />
-  <rect x="458" y="219" width="44" height="8" rx="4" fill="#4A5064" />
-  <rect x="522" y="212" width="72" height="22" rx="5" fill="#4D6BFE" />
-  <rect x="536" y="219" width="44" height="8" rx="4" fill="#FFFFFF" />
-  <!-- result -->
-  <rect x="444" y="244" width="150" height="20" rx="5" fill="#EEF1FB" />
-  <circle cx="454" cy="254" r="4" fill="#28CA42" />
-  <rect x="464" y="250" width="90" height="8" rx="4" fill="#4D6BFE" />
+  <!-- command result node -->
+  <rect x="32" y="176" width="360" height="40" rx="8" fill="#EEF1FB" stroke="#D8DCE8" />
+  <circle cx="54" cy="196" r="7" fill="#28CA42" />
+  <rect x="70" y="186" width="150" height="9" rx="4.5" fill="#4D6BFE" />
+  <rect x="70" y="201" width="220" height="8" rx="4" fill="#8CA4FF" />
+
+  <!-- arrow -->
+  <path d="M400 120H446" stroke="#8CA4FF" stroke-width="3" stroke-linecap="round" />
+  <path d="M434 110L446 120L434 130" stroke="#8CA4FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- popup: sections as groups, posts as rows -->
+  <rect x="456" y="40" width="152" height="220" rx="10" fill="#FFFFFF" stroke="#E2E5EF" />
+  <!-- search -->
+  <rect x="466" y="50" width="132" height="20" rx="5" fill="#F3F4F8" />
+  <rect x="474" y="57" width="60" height="7" rx="3.5" fill="#C5CBDB" />
+  <!-- group: posts -->
+  <rect x="468" y="80" width="40" height="6" rx="3" fill="#9AA1B4" />
+  <rect x="466" y="92" width="132" height="20" rx="5" fill="#EEF1FB" />
+  <rect x="474" y="98" width="84" height="8" rx="4" fill="#4D6BFE" />
+  <rect x="466" y="116" width="132" height="18" rx="5" fill="#FFFFFF" />
+  <rect x="474" y="121" width="70" height="8" rx="4" fill="#8C93A8" />
+  <!-- group: daily -->
+  <rect x="468" y="142" width="36" height="6" rx="3" fill="#9AA1B4" />
+  <rect x="466" y="154" width="132" height="18" rx="5" fill="#FFFFFF" />
+  <rect x="474" y="159" width="88" height="8" rx="4" fill="#8C93A8" />
+  <!-- group: product -->
+  <rect x="468" y="180" width="42" height="6" rx="3" fill="#9AA1B4" />
+  <rect x="466" y="192" width="132" height="18" rx="5" fill="#FFFFFF" />
+  <rect x="474" y="197" width="64" height="8" rx="4" fill="#8C93A8" />
+  <!-- group: thinking -->
+  <rect x="468" y="218" width="38" height="6" rx="3" fill="#9AA1B4" />
+  <rect x="466" y="230" width="132" height="18" rx="5" fill="#FFFFFF" />
+  <rect x="474" y="235" width="76" height="8" rx="4" fill="#8C93A8" />
 </svg>
