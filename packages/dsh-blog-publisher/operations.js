@@ -9,6 +9,8 @@
  */
 
 import { execFile } from 'node:child_process'
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
 import { scrubbedParentEnv } from '@deepseek-ai/dsh-subprocess'
 
 /** Content sections the publisher can commit, keyed by their directory name. */
@@ -285,16 +287,22 @@ export async function publishPost(options, contentRoot, defaultBranch, request) 
     // Untracked files count too, except the published file itself.
     // Porcelain v1 lines are "XY <path>": two status columns, one space,
     // then the path, so the path starts at index 3.
+    // A post's images live in a sibling folder named after the file, so the
+    // publishable unit is the document plus everything under that folder.
+    // Anything else in the tree is unrelated and would be swept in.
+    const assetDirectory = relative.replace(/\.md$/, '')
+    const owns = entry => entry === relative || entry === assetDirectory || entry.startsWith(`${assetDirectory}/`)
+
     const status = await runOrThrow('git', ['status', '--porcelain'], options)
     const unrelated = status
       .split('\n')
       .filter(line => line.length > 3)
       .map(line => line.slice(3).trim().replace(/^"(.*)"$/, '$1'))
-      .filter(entry => entry !== relative)
+      .filter(entry => !owns(entry))
     if (unrelated.length > 0) {
       return failure(
         'working_tree_dirty',
-        `The working tree has uncommitted changes beyond ${relative}: ${unrelated.join(', ')}. Commit or stash them first.`,
+        `The working tree has uncommitted changes beyond ${relative} and ${assetDirectory}/: ${unrelated.join(', ')}. Commit or stash them first.`,
       )
     }
 
@@ -309,7 +317,12 @@ export async function publishPost(options, contentRoot, defaultBranch, request) 
         await runOrThrow('git', ['checkout', '-b', branch], options)
     }
 
-    await runOrThrow('git', ['add', '--', relative], options)
+    // Stage the document and its asset folder together when the folder is
+    // present; `git add` would fail on a path that does not exist.
+    const stagedPaths = [relative]
+    if (existsSync(join(options.cwd, assetDirectory)))
+      stagedPaths.push(assetDirectory)
+    await runOrThrow('git', ['add', '--', ...stagedPaths], options)
     const staged = await runOrThrow('git', ['diff', '--cached', '--name-only'], options)
     if (!staged.trim())
       return failure('nothing_to_commit', `The file ${relative} has no uncommitted changes.`)
