@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Blog publisher",
-    "description": "Publish Markdown blog posts from a session to GitHub and open a pull request that triggers the site deployment.",
+    "description": "Publish Markdown blog posts to GitHub and open a pull request that triggers the site deployment. The Blog publisher panel in the right sidebar picks a file, previews it, and publishes it; in a session the blog_preview and blog_publish tools do the same.",
     "detail": "docs/DETAIL.md"
   }
 }
