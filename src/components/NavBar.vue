@@ -28,20 +28,20 @@ const searchOpen = ref(false)
           <span class="lt-md:hidden">文章</span>
           <div i-ri-article-line md:hidden />
         </RouterLink> -->
-        <!-- <RouterLink to="/thinking" title="思考">
+        <RouterLink to="/thinking" title="思考">
           <span class="lt-md:hidden">思考</span>
           <div i-ri-article-line md:hidden />
-        </RouterLink> -->
-        <!-- <RouterLink to="/product" title="作品集">
+        </RouterLink>
+        <RouterLink to="/product" title="作品集">
           <span class="lt-md:hidden">作品集</span>
           <div i-ri-folder-image-line md:hidden />
-        </RouterLink> -->
-        <span class="lt-md:hidden">
+        </RouterLink>
+        <!-- <span class="lt-md:hidden">
           <RouterLink to="/daily" title="碎记">
             <span class="lt-md:hidden">碎记</span>
             <div i-ri-quill-pen-line md:hidden />
           </RouterLink>
-        </span>
+        </span> -->
         <!-- <span class="lt-md:hidden">
           <RouterLink to="/interest" title="兴趣">
             <span class="lt-md:hidden">兴趣</span>
