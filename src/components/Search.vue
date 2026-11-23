@@ -23,7 +23,8 @@ const allPosts = computed(() => {
       const hasDate = i.meta.frontmatter.date && !i.meta.frontmatter.draft
       const validPath = !i.path.endsWith('.html')
       const isMainContent = i.path.startsWith('/posts')
-        || i.path.startsWith('/daily')
+        || i.path.startsWith('/thinking')
+        || i.path.startsWith('/product')
       return hasDate && validPath && isMainContent
     })
     .map(i => ({
@@ -33,7 +34,7 @@ const allPosts = computed(() => {
       lang: i.meta.frontmatter.lang,
       duration: i.meta.frontmatter.duration,
       desc: i.meta.frontmatter.description,
-      type: i.path.split('/')[1], // 提取类型：posts, product, interest, daily
+      type: i.path.split('/')[1], // 提取类型：posts, thinking, product
     }))
 })
 
@@ -62,8 +63,8 @@ function navigate(path: string) {
 function getTypeLabel(type: string) {
   const labels: Record<string, string> = {
     posts: '博客',
+    thinking: '思考',
     product: '产品',
-    daily: '日常',
   }
   return labels[type] || type
 }
