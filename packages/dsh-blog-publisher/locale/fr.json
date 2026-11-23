@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": " Publieur de blog",
+    "description": "Publie les articles de blog Markdown d'une session vers GitHub et ouvre une pull request qui déclenche le déploiement du site.",
+    "detail": "docs/DETAIL.md"
+  }
+}

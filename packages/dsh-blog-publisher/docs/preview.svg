@@ -1,0 +1,40 @@
+<svg width="640" height="300" viewBox="0 0 640 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="300" rx="12" fill="#F5F6FA" />
+  <rect x="0.5" y="0.5" width="639" height="299" rx="11.5" stroke="#E2E5EF" />
+
+  <!-- terminal / session panel -->
+  <rect x="32" y="32" width="330" height="236" rx="10" fill="#FFFFFF" stroke="#E2E5EF" />
+  <circle cx="54" cy="54" r="4" fill="#FF6058" />
+  <circle cx="70" cy="54" r="4" fill="#FFBD2E" />
+  <circle cx="86" cy="54" r="4" fill="#28CA42" />
+  <rect x="52" y="78" width="290" height="30" rx="6" fill="#EEF1FB" />
+  <rect x="64" y="88" width="180" height="10" rx="5" fill="#4D6BFE" />
+  <rect x="52" y="122" width="290" height="26" rx="6" fill="#F3F4F8" />
+  <rect x="64" y="130" width="140" height="10" rx="5" fill="#B9C0D4" />
+  <rect x="52" y="158" width="290" height="26" rx="6" fill="#F3F4F8" />
+  <rect x="64" y="166" width="210" height="10" rx="5" fill="#B9C0D4" />
+  <rect x="52" y="194" width="150" height="34" rx="8" fill="#4D6BFE" />
+  <rect x="72" y="207" width="110" height="9" rx="4.5" fill="#FFFFFF" />
+  <rect x="52" y="238" width="290" height="14" rx="4" fill="#EDEFF5" />
+
+  <!-- arrow from session to pull request -->
+  <path d="M372 150H420" stroke="#8CA4FF" stroke-width="3" stroke-linecap="round" />
+  <path d="M408 140L420 150L408 160" stroke="#8CA4FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- pull request card -->
+  <rect x="430" y="52" width="178" height="196" rx="10" fill="#FFFFFF" stroke="#E2E5EF" />
+  <circle cx="456" cy="80" r="10" fill="#E8EBF7" />
+  <path d="M452 80L456 76L460 80M456 76V86" stroke="#4D6BFE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="474" y="72" width="108" height="9" rx="4.5" fill="#4A5064" />
+  <rect x="474" y="86" width="72" height="7" rx="3.5" fill="#B9C0D4" />
+
+  <rect x="450" y="108" width="138" height="34" rx="6" fill="#EEF1FB" />
+  <rect x="462" y="121" width="96" height="8" rx="4" fill="#4D6BFE" />
+
+  <circle cx="458" cy="170" r="5" fill="#28CA42" />
+  <rect x="472" y="166" width="104" height="8" rx="4" fill="#8C93A8" />
+  <circle cx="458" cy="196" r="5" fill="#28CA42" />
+  <rect x="472" y="192" width="76" height="8" rx="4" fill="#8C93A8" />
+  <circle cx="458" cy="222" r="5" fill="#FFBD2E" />
+  <rect x="472" y="218" width="88" height="8" rx="4" fill="#8C93A8" />
+</svg>

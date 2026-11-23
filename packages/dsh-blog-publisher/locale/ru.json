@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Публикатор блога",
+    "description": "Публикует статьи блога в Markdown из сессии в GitHub и создаёт pull request, запускающий развёртывание сайта.",
+    "detail": "docs/DETAIL.md"
+  }
+}
