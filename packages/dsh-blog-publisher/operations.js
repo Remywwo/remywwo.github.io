@@ -319,10 +319,15 @@ export async function publishPost(options, contentRoot, defaultBranch, request) 
     }
 
     const currentBranch = (await runOrThrow('git', ['rev-parse', '--abbrev-ref', 'HEAD'], options)).trim()
-    if (currentBranch === defaultBranch)
-      await runOrThrow('git', ['checkout', '-b', branch], options)
-    else if (currentBranch !== branch)
-      await runOrThrow('git', ['checkout', branch], options)
+    if (currentBranch !== branch) {
+      // The topic branch may not exist locally yet: create it from the
+      // current commit, or switch to it when it is already here.
+      const exists = await run('git', ['rev-parse', '--verify', '--quiet', `refs/heads/${branch}`], options)
+      if (exists.exitCode === 0)
+        await runOrThrow('git', ['checkout', branch], options)
+      else
+        await runOrThrow('git', ['checkout', '-b', branch], options)
+    }
 
     await runOrThrow('git', ['add', '--', relative], options)
     const staged = await runOrThrow('git', ['diff', '--cached', '--name-only'], options)
