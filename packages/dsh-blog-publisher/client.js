@@ -427,11 +427,12 @@ window.__ModuleLoader__.load({
 `
 
     /** Simplified Chinese dictionary. */
-    const zh = { 'tab.title': '博客发布', 'heading': '博客发布', 'refresh': '刷新', 'refreshing': '刷新中…', 'loading': '读取中…', 'noFiles': '没有找到可发布的 Markdown 文件', 'selectFile': '选择文章', 'section': '分区', 'message': '提交信息', 'messagePlaceholder': 'feat: 新增文章', 'preview': '预览', 'publish': '发布', 'branch': '分支', 'branchPlaceholder': '留空则自动生成', 'currentBranch': '当前分支', 'dirtyFiles': '未提交改动', 'clean': '工作区干净', 'noRemote': '未配置远程仓库', 'publishing': '发布中…', 'previewing': '预览中…', 'published': '已创建 PR #{number}', 'failed': '失败：{message}', 'neverPublished': '尚未发布', 'summary': '{count} 个文件' }
+    const zh = { 'tab.title': '博客发布', 'guide.description': '预览并发布博客文章', 'heading': '博客发布', 'refresh': '刷新', 'refreshing': '刷新中…', 'loading': '读取中…', 'noFiles': '没有找到可发布的 Markdown 文件', 'selectFile': '选择文章', 'section': '分区', 'message': '提交信息', 'messagePlaceholder': 'feat: 新增文章', 'preview': '预览', 'publish': '发布', 'branch': '分支', 'branchPlaceholder': '留空则自动生成', 'currentBranch': '当前分支', 'dirtyFiles': '未提交改动', 'clean': '工作区干净', 'noRemote': '未配置远程仓库', 'publishing': '发布中…', 'previewing': '预览中…', 'published': '已创建 PR #{number}', 'failed': '失败：{message}', 'neverPublished': '尚未发布', 'summary': '{count} 个文件' }
 
     /** English dictionary. */
     const en = {
       'tab.title': 'Blog publisher',
+      'guide.description': 'Preview and publish blog posts',
       'heading': 'Blog publisher',
       'refresh': 'Refresh',
       'refreshing': 'Refreshing…',
@@ -607,11 +608,22 @@ window.__ModuleLoader__.load({
         ctx.effect(() => disposeRemote, 'blog-publisher: remote namespace')
 
         // Stage one: the tab type.
+        //
+        // The `guide` entry is what makes the panel reachable: the right
+        // Sidebar's entry page builds its capsules from
+        // `definition.guide ?? []`, so a type without one registers a body
+        // nothing can open.
         ctx.effect(() => ctx.sidebarRightTabs.register({
           id: PUBLISHER_ID,
           kind: PUBLISHER_KIND,
           priority: 'extension',
           title: () => ctx.locale.bind(NS)('tab.title'),
+          guide: [{
+            id: 'publisher',
+            order: 10,
+            title: () => ctx.locale.bind(NS)('tab.title'),
+            description: () => ctx.locale.bind(NS)('guide.description'),
+          }],
         }), 'blog-publisher: tab type')
 
         // The dictionaries. Chinese and English are the required baseline.
