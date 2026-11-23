@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "博客发布器",
+    "description": "在会话中把 Markdown 博客文章发布到 GitHub，并创建触发站点部署的 Pull Request。",
+    "detail": "docs/DETAIL.zh.md"
+  }
+}

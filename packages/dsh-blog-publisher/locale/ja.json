@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "ブログパブリッシャー",
+    "description": "セッションから Markdown のブログ記事を GitHub に公開し、サイトデプロイを起動するプルリクエストを作成します。",
+    "detail": "docs/DETAIL.md"
+  }
+}

@@ -1,0 +1,9 @@
+- insert:
+    - id: blog-publisher
+      name: '@local/blog-publisher'
+      config:
+        repositoryPath: !!js process.env.DSH_BLOG_REPO_PATH ?? ''
+        defaultBranch: main
+        contentRoot: pages
+        timeoutMs: 120000
+        maxOutputBytes: 1048576

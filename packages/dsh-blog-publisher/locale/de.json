@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Blog-Publisher",
+    "description": "Veröffentlicht Markdown-Blogbeiträge aus einer Sitzung auf GitHub und öffnet einen Pull Request, der die Bereitstellung der Website auslöst.",
+    "detail": "docs/DETAIL.md"
+  }
+}
