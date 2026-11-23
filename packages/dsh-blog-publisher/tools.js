@@ -48,6 +48,11 @@ const PUBLISH_SCHEMA = {
     path: { type: 'string', required: true },
     section: { type: 'string', required: true },
     branch: { type: 'string', required: true },
+    base: {
+      type: 'string',
+      required: true,
+      description: 'The ref the topic branch started from, so the reviewer can tell whether unrelated commits were avoided.',
+    },
     commit: { type: 'string', required: true },
     remote: { type: 'string', required: true },
     pullRequestUrl: { type: 'string', required: true },
