@@ -178,7 +178,13 @@ export function apply(ctx, config) {
       },
       branch: {
         type: 'string',
-        description: 'Topic branch name. Omit to generate one from the file name and section.',
+        description: 'Topic branch name. Omit to generate one.',
+      },
+      slug: {
+        type: 'string',
+        description: 'English short name used in the generated branch, for example "user-research". '
+          + 'Supply it when the file name has no ASCII letters, such as a Chinese title. '
+          + 'A `slug:` frontmatter key in the file is used when this is omitted.',
       },
     },
     output: { schema: { oneOf: [PUBLISH_SCHEMA, FAILURE_SCHEMA] }, render: renderValue },
@@ -192,6 +198,7 @@ export function apply(ctx, config) {
           section: args.section,
           message: args.message,
           branch: args.branch,
+          slug: args.slug,
         },
       )
     },

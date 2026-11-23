@@ -9,7 +9,7 @@
  */
 
 import { execFile } from 'node:child_process'
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { scrubbedParentEnv } from '@deepseek-ai/dsh-subprocess'
 
@@ -134,19 +134,75 @@ export function resolveContentPath(contentRoot, requested, section) {
 }
 
 /**
- * Build a topic branch name for one publish request.
- * @param {string} section - Content section.
- * @param {string} stem - File stem of the published content.
- * @returns {string} A branch name safe for Git and GitHub.
+ * Reduce one label to the ASCII form a branch name can carry.
+ * @param {string} text - Any label.
+ * @returns {string} Lowercase letters, digits and single dashes, or an empty string.
  */
-export function buildBranchName(section, stem) {
-  const safeStem = stem
+function asciiSlug(text) {
+  return text
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 48)
+}
+
+/**
+ * Read one frontmatter value from a Markdown source.
+ * @param {string} source - File content.
+ * @param {string} key - Frontmatter key.
+ * @returns {string} The value, or an empty string.
+ */
+function frontmatterValue(source, key) {
+  const line = source.split('\n').find(candidate => candidate.startsWith(`${key}:`))
+  return line ? line.slice(key.length + 1).trim().replace(/^["']|["']$/g, '') : ''
+}
+
+/**
+ * Read a draft's own English name and date, for a readable branch.
+ *
+ * A Chinese title yields no ASCII, so the draft can declare `slug:` in its
+ * frontmatter — the English name the branch and the pull request use.
+ * @param {{ cwd: string }} options - Execution limits carrying the repository.
+ * @param {string} relative - Repository-relative Markdown path.
+ * @returns {{ slug: string, date: string, title: string }} The declared values.
+ */
+function draftIdentity(options, relative) {
+  try {
+    const source = readFileSync(join(options.cwd, relative), 'utf8')
+    return {
+      slug: frontmatterValue(source, 'slug'),
+      date: frontmatterValue(source, 'date'),
+      title: frontmatterValue(source, 'title'),
+    }
+  }
+  catch {
+    return { slug: '', date: '', title: '' }
+  }
+}
+
+/**
+ * Build a topic branch name for one publish request.
+ *
+ * The order is: the caller's explicit English name, the draft's `slug:`
+ * frontmatter, the file stem when it is already ASCII, and finally the
+ * draft's date. A Chinese title never degrades into a meaningless `post`.
+ * @param {string} section - Content section.
+ * @param {{ slug?: string, stem: string, date?: string }} source - Naming inputs.
+ * @returns {string} A branch name safe for Git and GitHub.
+ */
+export function buildBranchName(section, source) {
   const suffix = Math.random().toString(36).slice(2, 8)
-  return `content/${section}-${safeStem || 'post'}-${suffix}`
+  const explicit = asciiSlug(source.slug?.trim() ?? '')
+  if (explicit)
+    return `content/${section}-${explicit}-${suffix}`
+
+  const fromStem = asciiSlug(source.stem)
+  if (fromStem)
+    return `content/${section}-${fromStem}-${suffix}`
+
+  // No ASCII name anywhere: the draft's date keeps the branch recognizable.
+  const stamp = (source.date ?? '').replace(/\D/g, '').slice(0, 8)
+  return `content/${section}-${stamp || 'draft'}-${suffix}`
 }
 
 /**
@@ -281,7 +337,12 @@ export async function publishPost(options, contentRoot, defaultBranch, request) 
   try {
     const relative = resolveContentPath(contentRoot, request.path, request.section)
     const stem = relative.split('/').pop().replace(/\.md$/, '')
-    const branch = request.branch?.trim() || buildBranchName(request.section, stem)
+    const identity = draftIdentity(options, relative)
+    const branch = request.branch?.trim() || buildBranchName(request.section, {
+      slug: request.slug?.trim() || identity.slug,
+      stem,
+      date: identity.date,
+    })
 
     // A dirty working tree would sweep unrelated edits into the commit.
     // Untracked files count too, except the published file itself.
