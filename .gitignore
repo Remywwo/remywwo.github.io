@@ -13,3 +13,6 @@ sponsors.*
 drafts
 *.log
 src/data/sponsors-circles.json
+
+# pnpm content-addressable store
+.pnpm-store
