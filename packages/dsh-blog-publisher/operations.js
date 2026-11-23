@@ -298,6 +298,27 @@ export async function previewPost(options, contentRoot, path, section) {
 }
 
 /**
+ * Resolve the ref a topic branch should start from.
+ *
+ * The remote-tracking branch wins so a stale local copy of the base branch
+ * cannot drag old commits into the pull request; the local branch is the
+ * fallback when no remote-tracking ref exists.
+ * @param {{ cwd: string, timeoutMs: number, maxOutputBytes: number, signal: AbortSignal }} options - Execution limits.
+ * @param {string} defaultBranch - The protected base branch.
+ * @returns {Promise<string | undefined>} The ref, or undefined when neither exists.
+ */
+async function resolveBaseRef(options, defaultBranch) {
+  const remoteRef = `origin/${defaultBranch}`
+  const remote = await run('git', ['rev-parse', '--verify', '--quiet', `refs/remotes/${remoteRef}`], options)
+  if (remote.exitCode === 0)
+    return remoteRef
+  const local = await run('git', ['rev-parse', '--verify', '--quiet', `refs/heads/${defaultBranch}`], options)
+  if (local.exitCode === 0)
+    return defaultBranch
+  return undefined
+}
+
+/**
  * Commit one Markdown file, push it, and open a pull request.
  *
  * The base branch is never modified and the pull request is never merged: a
@@ -346,14 +367,41 @@ export async function publishPost(options, contentRoot, defaultBranch, request) 
     }
 
     const currentBranch = (await runOrThrow('git', ['rev-parse', '--abbrev-ref', 'HEAD'], options)).trim()
+    let base = currentBranch
     if (currentBranch !== branch) {
-      // The topic branch may not exist locally yet: create it from the
-      // current commit, or switch to it when it is already here.
+      // The topic branch may not exist locally yet.
       const exists = await run('git', ['rev-parse', '--verify', '--quiet', `refs/heads/${branch}`], options)
-      if (exists.exitCode === 0)
+      if (exists.exitCode === 0) {
         await runOrThrow('git', ['checkout', branch], options)
-      else
+      }
+      else if (currentBranch === defaultBranch) {
+        // Publishing from the base branch itself cannot carry unrelated work,
+        // so the new branch simply starts where the checkout already is.
         await runOrThrow('git', ['checkout', '-b', branch], options)
+      }
+      else {
+        // Publishing from any other branch would put that branch's unrelated
+        // commits in the pull request, so the topic branch starts at the base
+        // branch instead. Uncommitted work follows a checkout unless it
+        // collides with the base's version of the same file.
+        base = await resolveBaseRef(options, defaultBranch)
+        if (base === undefined) {
+          return failure(
+            'base_missing',
+            `Neither origin/${defaultBranch} nor ${defaultBranch} exists, so a topic branch cannot start there.`,
+          )
+        }
+        const created = await run('git', ['checkout', '-b', branch, base], options)
+        if (created.exitCode !== 0) {
+          const detail = (created.stderr || created.stdout).trim()
+          return failure(
+            'base_conflict',
+            `Could not start ${branch} from ${base}: ${detail} `
+            + `The working tree holds changes this base would overwrite. Create a clean checkout of ${base} `
+            + '(for example with create_worktree) and publish there.',
+          )
+        }
+      }
     }
 
     // Stage the document and its asset folder together when the folder is
@@ -396,6 +444,7 @@ export async function publishPost(options, contentRoot, defaultBranch, request) 
             path: relative,
             section: request.section,
             branch,
+            base,
             commit,
             remote,
             pullRequestUrl: parsed.url,
@@ -417,6 +466,7 @@ export async function publishPost(options, contentRoot, defaultBranch, request) 
       path: relative,
       section: request.section,
       branch,
+      base,
       commit,
       remote,
       pullRequestUrl: url,
