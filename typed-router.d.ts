@@ -40,6 +40,7 @@ declare module 'vue-router/auto-routes' {
     '/posts/幕后产品': RouteRecordInfo<'/posts/幕后产品', '/posts/幕后产品', Record<never, never>, Record<never, never>>,
     '/posts/新人需要掌握的产品专业词汇': RouteRecordInfo<'/posts/新人需要掌握的产品专业词汇', '/posts/新人需要掌握的产品专业词汇', Record<never, never>, Record<never, never>>,
     '/posts/用 skill-creator 创建新 skill 的流程记录': RouteRecordInfo<'/posts/用 skill-creator 创建新 skill 的流程记录', '/posts/用 skill-creator 创建新 skill 的流程记录', Record<never, never>, Record<never, never>>,
+    '/posts/用户调研': RouteRecordInfo<'/posts/用户调研', '/posts/用户调研', Record<never, never>, Record<never, never>>,
     '/posts/社交类产品设计': RouteRecordInfo<'/posts/社交类产品设计', '/posts/社交类产品设计', Record<never, never>, Record<never, never>>,
     '/posts/社区类产品设计': RouteRecordInfo<'/posts/社区类产品设计', '/posts/社区类产品设计', Record<never, never>, Record<never, never>>,
     '/posts/虚拟DOM': RouteRecordInfo<'/posts/虚拟DOM', '/posts/虚拟DOM', Record<never, never>, Record<never, never>>,

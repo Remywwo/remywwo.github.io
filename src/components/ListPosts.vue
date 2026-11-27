@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router/auto'
-import { englishOnly, formatDate } from '~/logics'
+import { englishOnly, formatDate, inSection } from '~/logics'
 import type { Post } from '~/types'
 
 const props = defineProps<{
@@ -15,6 +15,9 @@ const pageSize = props.pageSize || 10
 const startPath = props.type ? `/${props.type}` : '/posts'
 const router = useRouter()
 const route = useRoute()
+
+/** The section this list shows. The home page lists blog articles. */
+const targetSection = props.type?.trim() || 'blog'
 
 // sessionStorage key
 const PAGE_STORAGE_KEY = `blog_page_${startPath.replace('/', '') || 'posts'}`
@@ -40,8 +43,12 @@ function getInitialPage() {
 }
 
 const routes: Post[] = router.getRoutes()
-  .filter(i => i.path.startsWith(startPath) && i.meta.frontmatter.date && !i.meta.frontmatter.draft)
+  .filter(i => i.meta.frontmatter.date && !i.meta.frontmatter.draft)
   .filter(i => !i.path.endsWith('.html'))
+  // Membership is decided by the page's own section, not by its directory, so a
+  // declared `type` can file a page elsewhere. `type: blog+thinking` lists it in
+  // both.
+  .filter(i => inSection(i.path, i.meta.frontmatter as Record<string, any>, targetSection))
   .map(i => ({
     path: i.meta.frontmatter.redirect || i.path,
     title: i.meta.frontmatter.title,

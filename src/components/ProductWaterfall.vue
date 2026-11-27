@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import { useRouter } from 'vue-router/auto'
+import { inSection } from '~/logics'
 
 const router = useRouter()
+
+/** The section the portfolio pages declare. */
+const TARGET_SECTION = 'design'
 
 interface ProductCard {
   path: string
@@ -15,7 +19,10 @@ interface ProductCard {
 
 const products = computed<ProductCard[]>(() => {
   return router.getRoutes()
-    .filter(i => i.path.startsWith('/product/') && i.meta.frontmatter.date && !i.meta.frontmatter.draft)
+    .filter(i => i.meta.frontmatter.date && !i.meta.frontmatter.draft)
+    // A declared `type` decides membership; without one the `/product/` directory
+    // does, so existing pages need no extra field.
+    .filter(i => inSection(i.path, i.meta.frontmatter as Record<string, any>, TARGET_SECTION))
     .filter(i => !i.path.endsWith('.html'))
     .sort((a, b) => +new Date(b.meta.frontmatter.date) - +new Date(a.meta.frontmatter.date))
     .map(i => ({
