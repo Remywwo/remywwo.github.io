@@ -173,11 +173,34 @@ function draftIdentity(options, relative) {
       slug: frontmatterValue(source, 'slug'),
       date: frontmatterValue(source, 'date'),
       title: frontmatterValue(source, 'title'),
+      image: frontmatterValue(source, 'image'),
     }
   }
   catch {
-    return { slug: '', date: '', title: '' }
+    return { slug: '', date: '', title: '', image: '' }
   }
+}
+
+/**
+ * Resolve the asset folder a page's cover lives in.
+ *
+ * Portfolio pages reference their cover as a site-absolute path such as
+ * `/images/fview-power/first.png`, which is served from `public/images/...`.
+ * That folder belongs to the page, so a publish must carry it; otherwise the
+ * merged card points at a file that only exists on the author's machine.
+ * @param {string} image - The frontmatter `image` value.
+ * @returns {string | undefined} The repository-relative folder, when the value is site-absolute.
+ */
+function coverDirectoryOf(image) {
+  if (!image.startsWith('/images/'))
+    return undefined
+  // `/images/<name>/<file>` is served from `public/images/<name>/<file>`, so the
+  // ownership rule needs the `public/` prefix the site path omits. Requiring the
+  // per-page folder keeps a stray `/images/top.png` from claiming the whole tree.
+  const parts = image.slice(1).split('/')
+  if (parts.length < 3)
+    return undefined
+  return `public/${parts.slice(0, -1).join('/')}`
 }
 
 /**
@@ -348,12 +371,23 @@ export async function publishPost(options, contentRoot, defaultBranch, request) 
     // publishable unit is the document plus everything under that folder.
     // Anything else in the tree is unrelated and would be swept in.
     const assetDirectory = relative.replace(/\.md$/, '')
-    const owns = entry => entry === relative || entry === assetDirectory || entry.startsWith(`${assetDirectory}/`)
+    // A page may also own a site-absolute cover folder, which lives under
+    // public/. It is part of the same publishable unit.
+    const coverDirectory = coverDirectoryOf(identity.image)
+    const owns = entry =>
+      entry === relative
+      || entry === assetDirectory
+      || entry.startsWith(`${assetDirectory}/`)
+      || (coverDirectory !== undefined
+        && (entry === coverDirectory || entry.startsWith(`${coverDirectory}/`)))
 
     // `core.quotePath=false` keeps non-ASCII paths verbatim; the default
     // escapes them as octal, which would never match the requested path. This
     // tree names files in Chinese, so that is the common case, not the corner.
-    const status = await runOrThrow('git', ['-c', 'core.quotePath=false', 'status', '--porcelain'], options)
+    // `-uall` lists untracked files one by one: without it Git collapses a new
+    // folder to its topmost component ("public/"), which no per-page ownership
+    // rule can match, and a page's cover folder would look like unrelated work.
+    const status = await runOrThrow('git', ['-c', 'core.quotePath=false', 'status', '--porcelain', '-uall'], options)
     const unrelated = status
       .split('\n')
       .filter(line => line.length > 3)
@@ -409,6 +443,8 @@ export async function publishPost(options, contentRoot, defaultBranch, request) 
     const stagedPaths = [relative]
     if (existsSync(join(options.cwd, assetDirectory)))
       stagedPaths.push(assetDirectory)
+    if (coverDirectory !== undefined && existsSync(join(options.cwd, coverDirectory)))
+      stagedPaths.push(coverDirectory)
     await runOrThrow('git', ['add', '--', ...stagedPaths], options)
     const staged = await runOrThrow('git', ['diff', '--cached', '--name-only'], options)
     if (!staged.trim())
