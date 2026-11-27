@@ -57,3 +57,42 @@ export function formatDate(d: string | Date, onlyDate = true) {
     return date.format('MMM D')
   return date.format('MMM D, YYYY')
 }
+
+/**
+ * Which content section one page belongs to.
+ *
+ * A declared `type` wins, so a page can be filed somewhere other than its
+ * directory; `type: blog+thinking` belongs to both. Without a declaration the
+ * directory decides, which keeps every page that never declares one working.
+ * `posts` and `product` map to the names pages actually declare, so their
+ * directory-derived section matches the same target as a declared one.
+ * @param path - The route path, for example `/posts/koa`.
+ * @param frontmatter - That route's parsed frontmatter.
+ * @returns The section name, possibly `+`-joined.
+ */
+export function sectionOf(path: string, frontmatter: Record<string, any> | undefined): string {
+  const declared = frontmatter?.type
+  if (typeof declared === 'string' && declared.trim())
+    return declared.trim()
+
+  const directory = path.split('/')[1] || ''
+  if (directory === 'posts')
+    return 'blog'
+  if (directory === 'product')
+    return 'design'
+  return directory
+}
+
+/**
+ * Whether one page belongs to a section.
+ * @param path - The route path.
+ * @param frontmatter - That route's parsed frontmatter.
+ * @param section - The section to test, for example `blog` or `design`.
+ * @returns True when the page's section list contains the requested section.
+ */
+export function inSection(path: string, frontmatter: Record<string, any> | undefined, section: string): boolean {
+  return sectionOf(path, frontmatter)
+    .split('+')
+    .map(name => name.trim())
+    .includes(section)
+}
